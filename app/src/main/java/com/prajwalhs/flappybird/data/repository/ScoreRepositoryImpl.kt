@@ -12,4 +12,7 @@ class ScoreRepositoryImpl @Inject constructor(
 
     override suspend fun saveHighScoreIfBetter(score: Int): Boolean =
         scoreDataStore.saveHighScoreIfBetter(score)
+
+    override suspend fun resetHighScore() =
+        scoreDataStore.resetHighScore()
 }

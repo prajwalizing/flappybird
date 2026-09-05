@@ -1,4 +1,4 @@
-package com.prajwalhs.flappybird.presentation.game
+package com.prajwalhs.flappybird.presentation.features.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +8,7 @@ import com.prajwalhs.flappybird.domain.model.GameState
 import com.prajwalhs.flappybird.domain.usecase.CalculateScoreUseCase
 import com.prajwalhs.flappybird.domain.usecase.CheckCollisionUseCase
 import com.prajwalhs.flappybird.domain.usecase.GetHighScoreUseCase
+import com.prajwalhs.flappybird.domain.usecase.GetSettingsUseCase
 import com.prajwalhs.flappybird.domain.usecase.MovePipesUseCase
 import com.prajwalhs.flappybird.domain.usecase.SaveHighScoreUseCase
 import com.prajwalhs.flappybird.domain.usecase.UpdateBirdPhysicsUseCase
@@ -28,11 +29,13 @@ class GameViewModel @Inject constructor(
     private val calculateScoreUseCase: CalculateScoreUseCase,
     private val getHighScoreUseCase: GetHighScoreUseCase,
     private val saveHighScoreUseCase: SaveHighScoreUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase,
     private val soundManager: SoundManager,
     private val vibrationHelper: VibrationHelper
 ) : ViewModel() {
 
-    private val config = GameConfig()
+    private var config = GameConfig()
+    private var isRising = false
 
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState
@@ -41,6 +44,18 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch {
             getHighScoreUseCase().collect { high ->
                 _uiState.update { it.copy(highScore = high) }
+            }
+        }
+        viewModelScope.launch {
+            getSettingsUseCase().collect { settings ->
+                config = GameConfig(
+                    pipeGapHeight = settings.difficulty.pipeGapHeight,
+                    pipeSpeed = settings.difficulty.pipeSpeed
+                )
+                soundManager.enabled = settings.soundEnabled
+                _uiState.update {
+                    it.copy(sky = settings.sky, immersiveModeEnabled = settings.immersiveModeEnabled)
+                }
             }
         }
     }
@@ -65,8 +80,30 @@ class GameViewModel @Inject constructor(
                 flap()
             }
             is GameState.Playing -> flap()
-            is GameState.GameOver -> resetGame()
+            is GameState.Paused -> Unit
+            is GameState.GameOver -> Unit
         }
+    }
+
+    fun setRising(rising: Boolean) {
+        isRising = rising
+    }
+
+    fun pause() {
+        _uiState.update {
+            if (it.gameState is GameState.Playing) it.copy(gameState = GameState.Paused) else it
+        }
+    }
+
+    fun resume() {
+        _uiState.update {
+            if (it.gameState is GameState.Paused) it.copy(gameState = GameState.Playing) else it
+        }
+    }
+
+    /** Clears the run and drops straight back into Playing — used by Restart/Play again. */
+    fun restart() {
+        applyFreshState(startPlaying = true)
     }
 
     private fun flap() {
@@ -84,7 +121,7 @@ class GameViewModel @Inject constructor(
 
         val cappedDelta = deltaTimeSeconds.coerceAtMost(0.033f) // avoid big jumps after frame drops
 
-        val updatedBird = updateBirdPhysicsUseCase(current.bird, config, cappedDelta)
+        val updatedBird = updateBirdPhysicsUseCase(current.bird, config, cappedDelta, isRising)
 
         val movedPipes = movePipesUseCase(
             pipes = current.pipes,
@@ -129,7 +166,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    private fun resetGame() {
+    private fun applyFreshState(startPlaying: Boolean) {
         val state = _uiState.value
         _uiState.update {
             GameUiState(
@@ -137,9 +174,11 @@ class GameViewModel @Inject constructor(
                 pipes = emptyList(),
                 score = 0,
                 highScore = state.highScore,
-                gameState = GameState.Ready,
+                gameState = if (startPlaying) GameState.Playing else GameState.Ready,
                 screenWidth = state.screenWidth,
-                screenHeight = state.screenHeight
+                screenHeight = state.screenHeight,
+                sky = state.sky,
+                immersiveModeEnabled = state.immersiveModeEnabled
             )
         }
     }

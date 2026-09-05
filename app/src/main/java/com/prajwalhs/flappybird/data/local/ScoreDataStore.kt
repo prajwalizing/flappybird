@@ -36,4 +36,8 @@ class ScoreDataStore @Inject constructor(
         }
         return isNewHigh
     }
+
+    suspend fun resetHighScore() {
+        dataStore.edit { it[HIGH_SCORE_KEY] = 0 }
+    }
 }

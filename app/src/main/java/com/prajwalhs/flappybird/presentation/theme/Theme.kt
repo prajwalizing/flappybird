@@ -5,8 +5,13 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 private val AppColorScheme = lightColorScheme(
-    primary = SkyBlue,
-    secondary = PipeGreen
+    primary = GoldBottom,
+    secondary = InkPrimary,
+    onPrimary = InkOnGold,
+    surface = SurfaceCard,
+    background = SurfaceSheet,
+    onSurface = InkPrimary,
+    onBackground = InkPrimary
 )
 
 @Composable

@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.prajwalhs.flappybird.presentation.game.GameScreen
-import com.prajwalhs.flappybird.presentation.menu.MenuScreen
-import com.prajwalhs.flappybird.presentation.settings.SettingsScreen
+import com.prajwalhs.flappybird.presentation.features.game.GameScreen
+import com.prajwalhs.flappybird.presentation.features.menu.MenuScreen
+import com.prajwalhs.flappybird.presentation.features.settings.SettingsScreen
 
 @Composable
 fun FlappyNavGraph(modifier: Modifier = Modifier) {

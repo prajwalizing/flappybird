@@ -1,4 +1,4 @@
-package com.prajwalhs.flappybird.presentation.menu
+package com.prajwalhs.flappybird.presentation.features.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

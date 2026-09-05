@@ -1,9 +1,12 @@
-package com.prajwalhs.flappybird.presentation.settings
+package com.prajwalhs.flappybird.presentation.features.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.prajwalhs.flappybird.domain.model.Difficulty
 import com.prajwalhs.flappybird.domain.model.Settings
+import com.prajwalhs.flappybird.domain.model.SkyPalette
 import com.prajwalhs.flappybird.domain.usecase.GetSettingsUseCase
+import com.prajwalhs.flappybird.domain.usecase.ResetHighScoreUseCase
 import com.prajwalhs.flappybird.domain.usecase.SaveSettingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val getSettingsUseCase: GetSettingsUseCase,
-    private val saveSettingsUseCase: SaveSettingsUseCase
+    private val saveSettingsUseCase: SaveSettingsUseCase,
+    private val resetHighScoreUseCase: ResetHighScoreUseCase
 ) : ViewModel() {
 
     private val _settings = MutableStateFlow(Settings())
@@ -32,5 +36,21 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleMusic(enabled: Boolean) {
         viewModelScope.launch { saveSettingsUseCase.setMusicEnabled(enabled) }
+    }
+
+    fun setDifficulty(difficulty: Difficulty) {
+        viewModelScope.launch { saveSettingsUseCase.setDifficulty(difficulty) }
+    }
+
+    fun setSky(sky: SkyPalette) {
+        viewModelScope.launch { saveSettingsUseCase.setSky(sky) }
+    }
+
+    fun toggleImmersiveMode(enabled: Boolean) {
+        viewModelScope.launch { saveSettingsUseCase.setImmersiveMode(enabled) }
+    }
+
+    fun resetBestScore() {
+        viewModelScope.launch { resetHighScoreUseCase() }
     }
 }
