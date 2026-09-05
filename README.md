@@ -2,11 +2,27 @@
 
 A simple offline touch-based Flappy Bird clone built with **Kotlin** and **Jetpack Compose**, using **Canvas** for rendering and animation. This project follows **MVVM + Clean Architecture** to keep game logic, data, and UI cleanly separated and testable.
 
-> **Status: v1.0 — Early Version**
-> This is the first working version of the app. Core gameplay (physics, collisions, scoring, high score persistence) is functional, but the project is actively evolving — expect refactors, new features (skins, difficulty scaling, leaderboards), and polish in future updates. See [Roadmap](#roadmap) below.
+
+---
+
+
+## App Version features
+
+### Version 2 (latest)
+- All Screens Design revamping
+- Separate Play and Settings button
+- Revamped Obstacle design & object design
+- Menu option to choose Sky them, Sound Enable, Enable Immersive Mode
+
+### Version 1
+- Object jumping animation
+- Obstacles
+- Present Score & Best Score handling
+- Restart & Menu button
 
 
 ---
+
 ## App Screenshots
 
 ## Version 2
@@ -41,8 +57,6 @@ A simple offline touch-based Flappy Bird clone built with **Kotlin** and **Jetpa
 - [Data Flow: A Single Frame](#data-flow-a-single-frame)
 - [Local Storage](#local-storage)
 - [Dependency Injection](#dependency-injection)
-- [Setup Instructions](#setup-instructions)
-- [Converting MP4 to GIF](#converting-mp4-to-gif)
 - [Roadmap](#roadmap)
 
 ---
@@ -250,12 +264,9 @@ Every `ViewModel` is annotated `@HiltViewModel` and receives its use cases via c
 
 This is an early, functional first version. Planned next steps include:
 
-- [ ] Difficulty scaling (pipe speed/gap shrinks as score increases)
-- [ ] Selectable bird skins (unlocked via score milestones)
-- [ ] Local top-5/top-10 leaderboard (likely introducing Room alongside DataStore)
-- [ ] Pause/resume support
-- [ ] Unit tests for domain use cases (physics, collision, scoring)
-- [ ] Polish: particle effects on collision, improved parallax background, wing-flap sprite animation
-- [ ] Share score via Android share sheet
+- [X] Difficulty scaling (pipe speed/gap shrinks as score increases)
+- [X] Selectable the Sky theme of the app
+- [X] Pause/resume support
+
 
 Contributions, refactor suggestions, and issue reports are welcome as the project matures.
