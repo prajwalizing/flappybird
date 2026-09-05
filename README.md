@@ -8,7 +8,21 @@ A simple offline touch-based Flappy Bird clone built with **Kotlin** and **Jetpa
 
 ---
 ## App Screenshots
+
+## Version 2
+
+<img width="270" height="585" alt="Screenshot_20260905_180521" src="https://github.com/user-attachments/assets/5c9737eb-ecaa-4400-a57f-e8c420653808" />
+<img width="270" height="585" alt="Screenshot_20260905_180627" src="https://github.com/user-attachments/assets/7f3c1044-8aec-4fff-8866-6f08d2ab360a" />
+<img width="270" height="585" alt="Screenshot_20260905_180616" src="https://github.com/user-attachments/assets/a078cf7b-efca-401e-9af4-0e962427b4b0" />
+<img width="270" height="585" alt="Screenshot_20260905_180637" src="https://github.com/user-attachments/assets/dcaadd69-a7bf-4128-995e-b367e1a255c8" />
+<img width="270" height="585" alt="Screenshot_20260905_180738" src="https://github.com/user-attachments/assets/6d2cdabe-6aa2-4045-92a9-acc35fb8477c" />
+
+
+
+
+
 ## Version 1
+
 <img width="270" height="585" alt="Screenshot_20260901_123346" src="https://github.com/user-attachments/assets/a76dad99-2510-4931-8fac-63938f7f4d88" />
 
 <img width="270" height="585" alt="Screenshot_20260901_123334" src="https://github.com/user-attachments/assets/d838ab88-1c4d-4860-a5de-ccabe93e7b07" />
